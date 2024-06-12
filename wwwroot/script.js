@@ -76,7 +76,7 @@ function getWeather(){
     datetime.html(convertTimeStamp(data.dt, data.timezone))
     weather__forecast.html(`<p>${data.weather[0].main}`)
     weather__temperature.html(`${data.main.temp.toFixed()}&#176`)
-    weather__icon.html(`   <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png" />`)
+    weather__icon.attr('src',"http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png")
     weather__minmax.html(`<p>Min: ${data.main.temp_min.toFixed()}&#176</p><p>Max: ${data.main.temp_max.toFixed()}&#176</p>`)
     weather__realfeel.html(`${data.main.feels_like.toFixed()}&deg`)
     weather__humidity.html(`${data.main.humidity}%`)
