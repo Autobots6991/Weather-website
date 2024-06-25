@@ -16,6 +16,7 @@ async function connectToMongo() {
     console.error('Error connecting to MongoDB:', error);
   }
 }
+app.use('/', express.static(path.join(__dirname + '/start')));
 app.use('/home', express.static(path.join(__dirname + '/start')));
 app.use('/realtime', express.static(path.join(__dirname + '/realtime')));
 connectToMongo();
