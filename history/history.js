@@ -1,19 +1,15 @@
-"use strict";
-export async function uploadJSON(filePath, collectionName) {
-  const db = client.db();
-  const collection = db.collection(collectionName);
+'use strict';
+const dataList = $('#data-list');
 
-  try {
-    const jsonData = await fs.promises.readFile(filePath, "utf8");
-    const data = JSON.parse(jsonData);
-    await collection.insertOne(data);
-    console.log("Uploaded JSON data to collection:", collectionName);
-  } catch (error) {
-    console.error("Error uploading JSON:", error);
-  } finally {
-    await client.close();
-  }
+async function fetchData() {
+  const response = await fetch('/history'); // Fetch data from server root path
+  const data = await response.json();
+
+  data.forEach((item) => {
+    const listItem = document.createElement('li');
+    listItem.textContent = JSON.stringify(item, null, 2); // Format data (optional)
+    dataList.appendChild(listItem);
+  });
 }
 
-const filePath = "./history/data/hanoi 2024-06-19 to 2024-06-25.json";
-const collectionName = "history";
+fetchData();
