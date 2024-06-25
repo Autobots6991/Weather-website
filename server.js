@@ -24,20 +24,20 @@ async function getData(collectionName) {
   const collection = db.collection(collectionName);
 
   try {
-    const cursor = collection.find({}); // Find all documents (replace with filters if needed)
+    const cursor = collection.find({});
     const data = await cursor.toArray();
     return data;
   } catch (error) {
     console.error('Error extracting data:', error);
-    return []; // Return empty array on error
+    return [];
   }
 }
 
 app.get('/history', async (req, res) => {
-  const collectionName = 'history'; // Replace with your actual collection name
+  const collectionName = 'history';
   const data = await getData(collectionName);
 
-  res.render('./index.html', { data }); // Pass data to the template
+  res.render('./index.html', { data });
 });
 app.listen(process.env.PORT || 3000, () =>
   console.log(`Server Running at port ${PORT}! and connected to DB`)
