@@ -12,4 +12,4 @@ async function fetchData() {
   });
 }
 
-fetchData();
+module.exports = fetchData();
