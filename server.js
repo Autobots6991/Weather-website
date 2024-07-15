@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 app.get('/realtime', (req, res) => {
   res.sendFile(path.join(staticPath, 'realtime.html'));
 });
-app.get('/history', async (req, res) => {
+app.get('/history', (req, res) => {
   connectToMongo();
   res.sendFile(path.join(staticPath, 'history.html'));
 });

@@ -31,8 +31,9 @@ async function updateData() {
   const data = await getData(collectionName);
   const { latitude } = data[0];
   console.log(latitude);
+  $('.weather__city').html(latitude);
 }
 
-document.addEventListener('DOMContentLoaded', updateData());
+$(document).ready(updateData());
 
 module.exports = { connectToMongo };
