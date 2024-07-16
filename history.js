@@ -29,11 +29,6 @@ async function getData(collectionName) {
 async function updateData() {
   const collectionName = 'history';
   const data = await getData(collectionName);
-  const { latitude } = data[0];
-  console.log(latitude);
-  $('.weather__city').html(latitude);
 }
 
-$(document).ready(updateData());
-
-module.exports = { connectToMongo };
+module.exports = { connectToMongo, getData, updateData };
