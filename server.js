@@ -19,6 +19,9 @@ app.get('/', (req, res) => {
 app.get('/realtime', (req, res) => {
   res.sendFile(path.join(staticPath, 'realtime.html'));
 });
+app.get('/forecast', (req, res) => {
+  res.sendFile(path.join(staticPath, 'forecast.html'));
+});
 app.get('/history', async (req, res) => {
   try {
     //Get data from Mongo
@@ -27,7 +30,7 @@ app.get('/history', async (req, res) => {
     //Destructuring
     const { latitude, name } = data[0];
     //Render to frontend
-    res.render('history', { latitude, name });
+    res.render(__dirname + '/public/views/history', { latitude, name });
   } catch (error) {
     console.error('Error fetching weather data:', error);
     res.status(500).send('Error retrieving weather data');
