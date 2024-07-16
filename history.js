@@ -40,15 +40,32 @@ async function getData(collectionName) {
   }
 }
 
-// Function to update data in MongoDB collection
-async function updateData() {
-  // Specify the collection name
-  const collectionName = 'history';
-  // Fetch data from the specified collection
-  const data = await getData(collectionName);
-  // Perform any necessary updates to the data
-  // ...
-}
+async function processWeatherData() {
+  // Fetch weather data from MongoDB using the 'getData' function
+  const data = await getData('history');
 
+  // Destructure properties from the first object in the data array
+  const { latitude, name, days } = data[0];
+  const uppercaseName = name.toUpperCase();
+
+  // Destructure properties from the 'days' array and calculate averages for each property
+  const { feelslike, datetime, temp } = days.reduce(
+    (acc, day) => {
+      acc.feelslike.push(day.feelslike);
+      acc.datetime.push(day.datetime);
+      acc.temp.push(day.temp);
+      return acc;
+    },
+    { feelslike: [], datetime: [], temp: [] }
+  );
+  // Return processed data
+  return {
+    latitude,
+    name: uppercaseName,
+    datetime, // Assuming datetime is sorted in ascending order
+    feelslike,
+    temp,
+  };
+}
 // Export the functions for use in other parts of the application
-module.exports = { connectToMongo, getData, updateData };
+module.exports = { connectToMongo, getData, processWeatherData };

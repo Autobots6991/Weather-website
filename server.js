@@ -7,7 +7,7 @@ const path = require('path');
 const ejs = require('ejs');
 const staticPath = path.join(__dirname, 'public');
 // Import functions from history.js
-const { connectToMongo, getData, updateData } = require('./history.js');
+const { connectToMongo, getData, processWeatherData } = require('./history.js');
 
 // Connect to MongoDB
 connectToMongo();
@@ -36,15 +36,17 @@ app.get('/forecast', (req, res) => {
 
 app.get('/history', async (req, res) => {
   try {
-    // Fetch weather data from MongoDB using the 'getData' function
-    const data = await getData('history');
-    console.log(data);
+    const { latitude, name, datetime, feelslike, temp } =
+      await processWeatherData();
 
-    // Destructure the latitude and name properties from the first object in the data array
-    const { latitude, name } = data[0];
-
-    // Render the 'history.ejs' template with the destructured properties
-    res.render(__dirname + '/public/views/history', { latitude, name });
+    // Render the 'history.ejs' template with the fetched data
+    res.render(__dirname + '/views/history', {
+      latitude,
+      name,
+      datetime,
+      feelslike,
+      temp,
+    });
   } catch (error) {
     // Log any errors that occur during data fetching
     console.error('Error fetching weather data:', error);
