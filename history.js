@@ -62,7 +62,7 @@ async function processWeatherData() {
   return {
     latitude,
     name: uppercaseName,
-    datetime, // Assuming datetime is sorted in ascending order
+    datetime,
     feelslike,
     temp,
   };
