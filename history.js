@@ -67,5 +67,6 @@ async function processWeatherData() {
     temp,
   };
 }
+
 // Export the functions for use in other parts of the application
 module.exports = { connectToMongo, getData, processWeatherData };
