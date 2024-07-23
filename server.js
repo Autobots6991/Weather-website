@@ -2,12 +2,13 @@
 const express = require('express');
 const app = express();
 const HOST = 'localhost';
-const PORT = 3000;
+const { PORT } = require('./config.js');
 const path = require('path');
 const ejs = require('ejs');
 const staticPath = path.join(__dirname, 'public');
+
 // Import functions from history.js
-const { connectToMongo, getData, processWeatherData } = require('./history.js');
+const { connectToMongo, processWeatherData } = require('./src/history.js');
 
 // Connect to MongoDB
 connectToMongo();
@@ -18,7 +19,9 @@ app.set('view engine', 'ejs');
 // Serve static files from the 'public' directory
 app.use(express.static(staticPath));
 
-// Define routes
+app.use(require('./routes/auth.js'));
+
+app.use(require('./routes/models.js'));
 app.get('/', (req, res) => {
   // Send the 'start.html' file when the root route is accessed
   res.sendFile(path.join(staticPath, 'start.html'));
@@ -33,7 +36,7 @@ app.get('/forecast', (req, res) => {
   // Send the 'forecast.html' file when the '/forecast' route is accessed
   res.sendFile(path.join(staticPath, 'forecast.html'));
 });
-
+// Register a new user
 app.get('/history', async (req, res) => {
   try {
     const { latitude, name, datetime, feelslike, temp } =
@@ -57,6 +60,6 @@ app.get('/history', async (req, res) => {
 });
 
 // Start the server on the specified port
-app.listen(process.env.PORT || 3000, () =>
-  console.log(`Server Running at port ${PORT}!`)
-);
+app.listen(PORT, function () {
+  console.log(`Server listening on port ${PORT}...`);
+});
